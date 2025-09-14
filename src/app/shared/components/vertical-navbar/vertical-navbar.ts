@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
+import {AuthService} from '../../../core/services/common/auth-service';
 
 @Component({
   selector: 'app-vertical-navbar',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './vertical-navbar.html',
   styleUrl: './vertical-navbar.css'
 })
-export class VerticalNavbar {
+export class VerticalNavbar implements OnInit {
+
+    username = signal<string | undefined>(undefined);
+
+    constructor(private authService: AuthService) { }
+
+    ngOnInit() {
+
+        this.username.set(this.authService.getCurrentUsername());
+    }
 
 }

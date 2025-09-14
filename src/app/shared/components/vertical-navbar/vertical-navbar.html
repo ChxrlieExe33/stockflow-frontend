@@ -48,13 +48,20 @@
 
         <span class="w-full bg-slate-800 h-1 mt-auto"></span>
 
+        @if (username()) {
+
+            <p class="w-full p-4 text-center">{{username()}}</p>
+
+        }
+
         <p class="w-full p-2 hover:text-red-500 cursor-pointer text-center transform transition-transform duration-300 hover:scale-105">
 
             <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-8 h-8 inline">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g fill="none" fill-rule="evenodd" stroke="#ff0000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(-1 0 0 1 18 3)"> <path d="m10.595 10.5 2.905-3-2.905-3"></path> <path d="m13.5 7.5h-9"></path> <path d="m10.5.5-8 .00224609c-1.1043501.00087167-1.9994384.89621131-2 2.00056153v9.99438478c.0005616 1.1043502.8956499 1.9996898 2 2.0005615l8 .0022461"></path> </g> </g>
             </svg>
 
-            Log out</p>
+            Log out
+        </p>
 
     </ul>
 
