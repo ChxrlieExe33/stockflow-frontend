@@ -2,7 +2,7 @@ import {Component, OnInit, signal} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AuthService} from '../../../../core/services/common/auth-service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {catchError, map, filter, exhaustMap} from 'rxjs/operators';
+import {catchError, map, filter, exhaustMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -34,11 +34,13 @@ export class LoginPage implements OnInit {
     subscribeToSubmitLogin() {
 
         this.submitted$.pipe(
+            tap(() => this.error.set(undefined)),
             filter(() => this.form.valid),
             exhaustMap(() => {
                 return this.authService.login(this.form.controls.username.value!, this.form.controls.password.value!).pipe(
                     map((res) => ({success: true as const, data: res})),
                     catchError((err) => {
+                        this.form.reset()
                         return of({success: false as const, error: err});
                     })
                 )
