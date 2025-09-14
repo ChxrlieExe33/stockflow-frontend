@@ -18,10 +18,14 @@ type LoginResponse = {
 })
 export class AuthService {
 
-    private auth = new BehaviorSubject<Auth | undefined>(this.retrieveAuthFromStorage());
+    private auth = new BehaviorSubject<Auth | undefined>(undefined);
     public auth$ = this.auth.asObservable();
 
-    constructor(private httpClient: HttpClient, private router: Router) {}
+    constructor(private httpClient: HttpClient, private router: Router) {
+
+        const stored = this.retrieveAuthFromStorage();
+        this.auth.next(stored);
+    }
 
     public login(username: string, password: string){
 
@@ -75,6 +79,13 @@ export class AuthService {
             return auth;
 
         } else {
+
+            setTimeout(() => {
+                if (this.router.url !== '/auth/login') {
+                    this.router.navigate(['/auth', 'login']).then();
+                }
+            }, 100);
+
             return undefined;
         }
 

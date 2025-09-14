@@ -18,4 +18,8 @@ export class VerticalNavbar implements OnInit {
         this.username.set(this.authService.getCurrentUsername());
     }
 
+    logout(): void {
+        this.authService.logout();
+    }
+
 }
