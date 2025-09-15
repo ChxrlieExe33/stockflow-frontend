@@ -1,9 +1,12 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {AuthService} from '../../../core/services/common/auth-service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-vertical-navbar',
-  imports: [],
+    imports: [
+        RouterLink
+    ],
   templateUrl: './vertical-navbar.html',
   styleUrl: './vertical-navbar.css'
 })

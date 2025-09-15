@@ -110,4 +110,10 @@ export class AuthService {
 
     }
 
+    isAuthed() : boolean {
+
+        return !!this.auth.value;
+
+    }
+
 }
