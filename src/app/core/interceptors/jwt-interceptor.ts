@@ -21,7 +21,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
     const authService = inject(AuthService);
 
-    const jwt = authService.getJwt();
+    const jwt = "Bearer " + authService.getJwt();
 
     const authReq = req.clone({
         setHeaders: {
