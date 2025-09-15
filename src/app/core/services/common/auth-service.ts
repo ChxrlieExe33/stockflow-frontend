@@ -116,4 +116,10 @@ export class AuthService {
 
     }
 
+    getJwt() : string | undefined {
+
+        return this.auth.value?.jwt;
+
+    }
+
 }
