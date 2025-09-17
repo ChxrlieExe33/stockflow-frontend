@@ -2,11 +2,13 @@ import {Component, OnInit, signal} from '@angular/core';
 import {CategoryService} from '../../services/category-service';
 import {AutoDestroyService} from '../../../../core/services/utils/auto-destroy.service';
 import {takeUntil} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-categories-list',
-  imports: [],
+    imports: [
+        RouterLink
+    ],
     providers: [AutoDestroyService],
   templateUrl: './categories-list.html',
   styleUrl: './categories-list.css'
@@ -16,6 +18,7 @@ export class CategoriesList implements OnInit {
     protected loadedCategories = signal<Category[]>([]);
     protected nextPage = signal<number>(0);
     protected nextPageExists = signal<boolean>(false);
+    protected totalPages = signal<number>(1);
 
     protected error = signal<string | undefined>(undefined);
 
@@ -44,7 +47,11 @@ export class CategoriesList implements OnInit {
                 if (this.nextPage() + 1 >= data.page.totalPages) {
                     this.nextPageExists.set(false);
                 } else {
+
                     this.nextPageExists.set(true);
+
+                    // Set the total pages again since it could have changed since last request.
+                    this.totalPages.set(data.page.totalPages);
 
                     const currentPage = this.nextPage();
                     this.nextPage.set(currentPage + 1);

@@ -22,7 +22,7 @@ The main features of this application are going to be the following
 The route structure will look something like:
 
 - /categories
-  - /all
+  - /  <-- All categories
   - /create
   - /edit/:categoryId
   - /detail/categoryId

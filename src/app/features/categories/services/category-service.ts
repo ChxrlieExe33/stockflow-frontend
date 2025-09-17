@@ -28,4 +28,10 @@ export class CategoryService {
 
     }
 
+    public getCategoryDetail(categoryId : string) : Observable<Category> {
+
+        return this.httpClient.get<Category>(`${environment.apiBaseUrl}/api/v1/products/categories/${categoryId}`);
+
+    }
+
 }
