@@ -7,4 +7,30 @@
 
     </header>
 
+    @if (products().length > 0) {
+
+        <section class="grid grid-cols-2 gap-4 w-full p-4">
+
+            @for (product of products(); track product.productId) {
+
+                <a class="w-full h-12 rounded-2xl bg-white shadow-lg flex items-center justify-between p-8">
+
+                    <h1 class="text-2xl">{{ product.name | capitalizeFirst }}</h1>
+
+                    <p class="text-lg">{{ product.factoryName }}</p>
+
+                </a>
+
+            }
+
+        </section>
+
+    }
+
+    @if (error()) {
+
+        <h1 class="text-2xl text-red-800 mt-8">{{ error() }}</h1>
+
+    }
+
 </main>

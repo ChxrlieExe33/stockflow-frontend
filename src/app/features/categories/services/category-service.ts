@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {Product} from '../../../core/models/products/product.model';
 
 export type CategoriesPageResponse = {
     content: Category[],
@@ -13,14 +14,25 @@ export type CategoriesPageResponse = {
     }
 }
 
+export type ProductPageResponse = {
+    content: Product[],
+    page: {
+        number: number,
+        size: number,
+        totalElements: number,
+        totalPages: number
+    }
+}
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CategoryService {
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) {
+    }
 
-    public getAllCategories(page : number) : Observable<CategoriesPageResponse> {
+    public getAllCategories(page: number): Observable<CategoriesPageResponse> {
 
         const params = new HttpParams().append('page', page);
 
@@ -28,9 +40,17 @@ export class CategoryService {
 
     }
 
-    public getCategoryDetail(categoryId : string) : Observable<Category> {
+    public getCategoryDetail(categoryId: string): Observable<Category> {
 
         return this.httpClient.get<Category>(`${environment.apiBaseUrl}/api/v1/products/categories/${categoryId}`);
+
+    }
+
+    public getProductsBelongingToCategory(categoryId: string, page: number): Observable<ProductPageResponse> {
+
+        const params = new HttpParams().append('page', page);
+
+        return this.httpClient.get<ProductPageResponse>(`${environment.apiBaseUrl}/api/v1/products/category/${categoryId}`, {params});
 
     }
 
