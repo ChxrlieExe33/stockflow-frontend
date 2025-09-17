@@ -1,7 +1,8 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {MainLayout} from './core/layouts/main-layout/main-layout';
 import {AuthLayout} from './core/layouts/auth-layout/auth-layout';
 import {isAuthedGuardCanActivate} from './core/guards/is-authed.guard';
+import {NotFound} from './shared/pages/not-found/not-found';
 
 export const routes: Routes = [
     {
@@ -12,6 +13,10 @@ export const routes: Routes = [
             {
                 path: 'categories',
                 loadChildren: () => import("./features/categories/categories.routes").then(r => r.categoriesRoutes)
+            },
+            {
+                path: 'not-found',
+                component: NotFound
             }
         ]
     },
