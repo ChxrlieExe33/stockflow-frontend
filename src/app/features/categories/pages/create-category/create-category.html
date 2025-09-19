@@ -1,0 +1,19 @@
+<main class="w-full min-h-[100dvh] flex items-center justify-center">
+
+    <form class="w-[40%] min-h-[400px] bg-white rounded-3xl flex flex-col items-center justify-between gap-6 px-4 py-8 shadow-xl" [formGroup]="form" (ngSubmit)="submitted.next()">
+
+        <h1 class="text-2xl font-bold">New category</h1>
+
+        @if (error()) {
+
+            <p class="text-2xl text-red-800">{{error()}}</p>
+
+        }
+
+        <input type="text" id="name" name="name" class="p-4 bg-slate-200 rounded-2xl w-[80%] outline-none focus:border-2 focus:border-[#1A2131]" placeholder="Category name..." formControlName="categoryName">
+
+        <button type="submit" class="px-12 py-4 rounded-full bg-[#1A2131] font-bold text-white cursor-pointer transform transition-transform duration-300 hover:scale-105">Submit</button>
+
+    </form>
+
+</main>

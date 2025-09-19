@@ -54,4 +54,14 @@ export class CategoryService {
 
     }
 
+    public submitNewCategory(name: string): Observable<void> {
+
+        const data = {
+            categoryName: name
+        }
+
+        return this.httpClient.post<void>(`${environment.apiBaseUrl}/api/v1/products/categories`, data);
+
+    }
+
 }
