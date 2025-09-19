@@ -64,4 +64,14 @@ export class CategoryService {
 
     }
 
+    public updateCategory(categoryId: string, name: string): Observable<Category> {
+
+        const data = {
+            categoryName: name
+        }
+
+        return this.httpClient.put<Category>(`${environment.apiBaseUrl}/api/v1/products/categories/${categoryId}`, data)
+
+    }
+
 }

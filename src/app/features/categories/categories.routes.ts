@@ -21,6 +21,10 @@ export const categoriesRoutes = [
         component: CreateCategory
     },
     {
+        path: "update/:categoryId",
+        component: CreateCategory
+    },
+    {
         path: "not-found",
         component: NotFound
     }

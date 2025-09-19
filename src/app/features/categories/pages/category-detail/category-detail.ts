@@ -4,11 +4,13 @@ import {AutoDestroyService} from '../../../../core/services/utils/auto-destroy.s
 import {takeUntil} from 'rxjs';
 import {Product} from '../../../../core/models/products/product.model';
 import {CapitalizeFirstPipe} from '../../../../shared/pipes/capitalize-first.pipe';
+import {RouterLink} from '@angular/router';
 
 @Component({
     selector: 'app-category-detail',
     imports: [
-        CapitalizeFirstPipe
+        CapitalizeFirstPipe,
+        RouterLink
     ],
     providers: [AutoDestroyService],
     templateUrl: './category-detail.html',

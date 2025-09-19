@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {CategoryService} from '../../services/category-service';
 import {exhaustMap, of, Subject} from 'rxjs';
 import {catchError, filter, map} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-category',
@@ -17,6 +17,9 @@ export class CreateCategory implements OnInit {
 
     protected submitted = new Subject<void>();
 
+    protected updating = signal<boolean>(false);
+    protected categoryToUpdate = signal<Category | undefined>(undefined);
+
     protected form = new FormGroup({
         categoryName: new FormControl('', [Validators.required]),
     })
@@ -25,12 +28,33 @@ export class CreateCategory implements OnInit {
 
     constructor(
         private readonly categoryService: CategoryService,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
 
         this.subscribeToSubmitted()
+
+        // Checking if we are on the update endpoint by looking for the categoryId route parameter.
+        if(this.activatedRoute.snapshot.params['categoryId']) {
+
+            this.updating.set(true);
+
+            this.categoryService.getCategoryDetail(this.activatedRoute.snapshot.params['categoryId']).subscribe({
+                next: data => {
+
+                    this.categoryToUpdate.set(data);
+                    this.form.controls.categoryName.setValue(data.name);
+
+                }, error: err => {
+
+                    this.handleError(err)
+
+                }
+            });
+
+        }
 
     }
 
@@ -39,21 +63,50 @@ export class CreateCategory implements OnInit {
         this.submitted.pipe(
             filter(() => this.form.valid),
             exhaustMap(() => {
-                return this.categoryService.submitNewCategory(this.form.controls.categoryName.value!).pipe(
-                    map((data) => ({success: true as const, data: data})),
-                    catchError((error) => of({success: false as const, error: error}))
-                )
+
+                if(this.updating()) {
+
+                    return this.categoryService.updateCategory(this.categoryToUpdate()!.categoryId, this.form.controls.categoryName.value!).pipe(
+                        map((data) => ({success: true as const, data: data})),
+                        catchError((error) => of({success: false as const, error: error}))
+                    )
+
+                } else {
+
+                    return this.categoryService.submitNewCategory(this.form.controls.categoryName.value!).pipe(
+                        map((data) => ({success: true as const, data: data})),
+                        catchError((error) => of({success: false as const, error: error}))
+                    )
+
+                }
+
             })
         ).subscribe({
             next: (res) => {
 
-                if (res.success) {
+                if (this.updating()) {
 
-                    this.router.navigate(["/categories"]).then();
+                    if(res.success) {
+
+                        this.router.navigate(['/categories', "detail", this.categoryToUpdate()!.categoryId]).then();
+
+                    } else {
+
+                        this.handleError(res.error);
+                    }
+
 
                 } else {
 
-                    this.handleError(res.error)
+                    if (res.success) {
+
+                        this.router.navigate(["/categories"]).then();
+
+                    } else {
+
+                        this.handleError(res.error)
+
+                    }
 
                 }
 
@@ -61,6 +114,7 @@ export class CreateCategory implements OnInit {
         });
 
     }
+
 
     handleError(err: any) {
 
