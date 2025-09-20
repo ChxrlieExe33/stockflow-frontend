@@ -24,14 +24,14 @@ The route structure will look something like:
 - /categories
   - /  <-- All categories
   - /create
-  - /edit/:categoryId
+  - /update/:categoryId
   - /detail/categoryId
 - /products
   - /count/:prodId
   - /instances/:prodId
   - /instances/edit/:prodId
   - /create
-  - /edit/:prodId
+  - /update/:prodId
   - /intake-order
 - /orders
   - /create

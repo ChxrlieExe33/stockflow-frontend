@@ -15,6 +15,10 @@ export const routes: Routes = [
                 loadChildren: () => import("./features/categories/categories.routes").then(r => r.categoriesRoutes)
             },
             {
+                path: 'products',
+                loadChildren: () => import("./features/products/products.routes").then(r => r.productRoutes)
+            },
+            {
                 path: 'not-found',
                 component: NotFound
             }

@@ -12,7 +12,7 @@
         <span class="flex flex-col items-center justify-center gap-4">
 
             <a [routerLink]="'/categories/update/' + category().categoryId" class="px-8 py-2 rounded-full bg-[#1A2131] text-white font-bold w-full text-center cursor-pointer transform transition-transform duration-300 hover:scale-105">Edit category</a>
-            <p class="px-8 py-2 rounded-full bg-[#1A2131] text-white font-bold w-full text-center cursor-pointer transform transition-transform duration-300 hover:scale-105">Add new product</p>
+            <a routerLink="/products/create" [queryParams]="{categoryId: category().categoryId}" class="px-8 py-2 rounded-full bg-[#1A2131] text-white font-bold w-full text-center cursor-pointer transform transition-transform duration-300 hover:scale-105">Add new product</a>
 
         </span>
 

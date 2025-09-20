@@ -1,0 +1,89 @@
+<main class="w-full min-h-[100dvh] flex flex-col items-center justify-center gap-8 p-8">
+
+    <h1 class="text-3xl font-bold">New product</h1>
+
+    <div class="w-[80%] flex items-start justify-evenly p-4">
+
+        <form class="flex flex-col items-center justify-items-start gap-4 min-w-[30%]" [formGroup]="productForm" (ngSubmit)="submitted$.next()">
+
+            <p class="text-2xl font-bold">Product details</p>
+
+            <span class="w-full h-2 rounded-full bg-[#949FAE] mb-4"></span>
+
+            <input type="text" id="name" name="name" class="px-8 py-2 rounded-2xl bg-white outline-none w-full" placeholder="Product name..." formControlName="productName">
+
+            <input type="text" id="factoryName" name="factoryName" class="px-8 py-2 rounded-2xl bg-white outline-none w-full" placeholder="Factory name..." formControlName="factoryName">
+
+            <span class="w-full flex items-center justify-evenly">
+
+                <label for="groupByWidth">Group by width?</label>
+                <input type="checkbox" id="groupByWidth" name="groupByWidth" class="w-8 h-8" formControlName="isGroupByWidth"/>
+
+            </span>
+
+            <span class="w-full flex items-center justify-evenly">
+
+                <label for="groupByWidth">Group by length?</label>
+                <input type="checkbox" id="groupByLength" name="groupByLength" class="w-8 h-8" formControlName="isGroupByLength"/>
+
+            </span>
+
+            <span class="w-full flex items-center justify-evenly">
+
+                <label for="groupByWidth">Group by height?</label>
+                <input type="checkbox" id="groupByHeight" name="groupByHeight" class="w-8 h-8" formControlName="isGroupByHeight"/>
+
+            </span>
+
+            <span class="w-full flex items-center justify-evenly">
+
+                <label for="groupByWidth">Group by colour?</label>
+                <input type="checkbox" id="groupByColour" name="groupByColour" class="w-8 h-8" formControlName="isGroupByColour"/>
+
+            </span>
+
+            <button type="submit" class="px-8 py-2 rounded-full bg-[#1A2131] text-white font-bold mt-8">Submit</button>
+
+        </form>
+
+        <form class="flex flex-col items-start justify-items-start min-w-[30%] gap-4" [formGroup]="categorySearchForm">
+
+            <h1 class="text-2xl font-bold self-center">Category</h1>
+
+            <span class="w-full h-2 rounded-full bg-[#949FAE] mb-4"></span>
+
+            @if (category()) {
+
+                <span class="w-full flex items-center justify-evenly">
+
+                    <p class="text-2xl">{{category()?.name}}</p>
+
+                    <button type="button" class="text-xl font-bold text-red-800 cursor-pointer" (click)="clearCurrentCategory()">x</button>
+
+                </span>
+
+            } @else {
+
+                <input type="text" id="categoryName" name="categoryName" class="px-8 py-2 rounded-2xl bg-white outline-none w-full" placeholder="Category name..." formControlName="categoryName">
+
+                @if (categorySearchResults()) {
+
+                    <div class="w-full rounded-3xl bg-white p-4 flex flex-col items-center justify-items-start gap-2">
+
+                        @for (cat of categorySearchResults(); track cat.categoryId) {
+
+                            <button class="text-lg hover:text-blue-400 cursor-pointer" type="button" (click)="setCurrentCategory(cat)">{{cat.name}}</button>
+
+                        }
+
+                    </div>
+
+                }
+
+            }
+
+        </form>
+
+    </div>
+
+</main>

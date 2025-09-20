@@ -54,6 +54,12 @@ export class CategoryService {
 
     }
 
+    public searchCategoriesByName(name : string): Observable<Category[]> {
+
+        return this.httpClient.get<Category[]>(`${environment.apiBaseUrl}/api/v1/products/categories/search/${name}`);
+
+    }
+
     public submitNewCategory(name: string): Observable<void> {
 
         const data = {
@@ -63,6 +69,7 @@ export class CategoryService {
         return this.httpClient.post<void>(`${environment.apiBaseUrl}/api/v1/products/categories`, data);
 
     }
+
 
     public updateCategory(categoryId: string, name: string): Observable<Category> {
 
