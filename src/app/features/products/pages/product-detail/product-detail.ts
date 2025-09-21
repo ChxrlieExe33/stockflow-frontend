@@ -72,13 +72,13 @@ export class ProductDetail implements OnInit {
 
         if (this.product().groupByWidth) {
 
-            return counts.sort(((a, b) => a.width! - a.width!));
+            return counts.sort(((a, b) => a.width! - b.width!));
 
         }
 
         if (this.product().groupByLength) {
 
-            return counts.sort(((a, b) => a.width! - a.width!));
+            return counts.sort(((a, b) => a.width! - b.width!));
 
         }
 
