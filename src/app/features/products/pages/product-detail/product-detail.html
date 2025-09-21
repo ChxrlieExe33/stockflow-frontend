@@ -1,88 +1,93 @@
 <main class="w-full min-h-[100dvh] flex flex-col items-center justify-items-start">
 
-    <section class="w-full min-h-[300px] bg-white shadow-lg flex items-center justify-between px-20">
+    <app-product-detail-header [product]="product()" />
 
-        <div class="flex flex-col items-start justify-center gap-4">
+    @if (error()) {
 
-            <h1 class="text-2xl font-bold">{{product().name | capitalizeFirst}}</h1>
+        <p class="text-2xl text-red-800">{{error()}}</p>
 
-            <p>{{product().factoryName}}</p>
+    }
 
-            <p>Created by: <b>{{product().usernameCreatedBy}}</b></p>
-            <p>Created date: {{product().createdAt | date}}</p>
+    <table class="bg-white table-auto border-collapse w-[45%] mt-8 text-center">
 
-            <p class="font-bold">{{product().productId}}</p>
+        <thead class="bg-[#1A2131] text-white font-bold text-xl">
 
-        </div>
-
-        <div class="flex flex-col items-end justify-items-start gap-4">
-
-            <h1 class="text-lg">Grouping</h1>
-
-            <span class="w-full flex items-center justify-between gap-8">
-
-                <p class="text-sm">Group by width</p>
+            <tr>
 
                 @if (product().groupByWidth) {
 
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-8 h-8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>i</title> <g id="Complete"> <g id="tick"> <polyline points="3.7 14.3 9.6 19 20.3 5" fill="none" stroke="#58db00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> </g> </g> </g></svg>
+                    <td class="p-2 border-slate-800 border-1">Width</td>
 
-                } @else {
-
-                    <svg fill="red" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path> </g></svg>
                 }
-
-            </span>
-
-            <span class="w-full flex items-center justify-between gap-8">
-
-                <p class="text-sm">Group by length</p>
 
                 @if (product().groupByLength) {
 
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-8 h-8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>i</title> <g id="Complete"> <g id="tick"> <polyline points="3.7 14.3 9.6 19 20.3 5" fill="none" stroke="#58db00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> </g> </g> </g></svg>
+                    <td class="p-2 border-slate-800 border-1">Length</td>
 
-                } @else {
-
-                    <svg fill="red" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path> </g></svg>
                 }
-
-            </span>
-
-            <span class="w-full flex items-center justify-between gap-8">
-
-                <p class="text-sm">Group by height</p>
 
                 @if (product().groupByHeight) {
 
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-8 h-8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>i</title> <g id="Complete"> <g id="tick"> <polyline points="3.7 14.3 9.6 19 20.3 5" fill="none" stroke="#58db00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> </g> </g> </g></svg>
+                    <td class="p-2 border-slate-800 border-1">Height</td>
 
-                } @else {
-
-                    <svg fill="red" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path> </g></svg>
                 }
-
-            </span>
-
-            <span class="w-full flex items-center justify-between gap-8">
-
-                <p class="text-sm">Group by colour</p>
 
                 @if (product().groupByColour) {
 
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-8 h-8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>i</title> <g id="Complete"> <g id="tick"> <polyline points="3.7 14.3 9.6 19 20.3 5" fill="none" stroke="#58db00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> </g> </g> </g></svg>
-
-                } @else {
-
-                    <svg fill="red" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path> </g></svg>
+                    <td class="p-2 border-slate-800 border-1">Colour</td>
 
                 }
 
-            </span>
+                <td class="border-slate-800 border-1">Count</td>
 
-        </div>
+            </tr>
 
+        </thead>
 
-    </section>
+        <tbody>
+
+            @for (count of counts(); track $index) {
+
+                <tr>
+
+                    @if (count.width) {
+
+                        <td class="p-2 border-1 border-slate-800">{{count.width}}</td>
+
+                    }
+
+                    @if (count.length) {
+
+                        <td class="p-2 border-1 border-slate-800">{{count.length}}</td>
+
+                    }
+
+                    @if (count.height) {
+
+                        <td class="p-2 border-1 border-slate-800">{{count.height}}</td>
+
+                    }
+
+                    @if (count.colour) {
+
+                        <td class="p-2  border-1 border-slate-800">{{count.colour}}</td>
+
+                    }
+
+                    <td class="p-2  border-1 border-slate-800">{{count.count}}</td>
+
+                </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if (this.counts().length < 1) {
+
+        <p class="text-2xl text-red-800 mt-8">No instances of {{product().name}} found.</p>
+
+    }
 
 </main>
