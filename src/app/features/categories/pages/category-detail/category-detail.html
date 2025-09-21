@@ -24,7 +24,7 @@
 
             @for (product of products(); track product.productId) {
 
-                <a class="w-full h-12 rounded-2xl bg-white shadow-lg flex items-center justify-between p-8">
+                <a class="w-full h-12 rounded-2xl bg-white shadow-lg flex items-center justify-between p-8" [routerLink]="'/products/detail/' + product.productId">
 
                     <h1 class="text-2xl">{{ product.name | capitalizeFirst }}</h1>
 
