@@ -4,11 +4,13 @@ import {ProductDetailHeader} from '../../components/product-detail-header/produc
 import {ProductCount, ProductService} from '../../services/product-service';
 import {AutoDestroyService} from '../../../../core/services/utils/auto-destroy.service';
 import {takeUntil} from 'rxjs';
+import {CapitalizeFirstPipe} from '../../../../shared/pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'app-product-detail',
     imports: [
-        ProductDetailHeader
+        ProductDetailHeader,
+        CapitalizeFirstPipe
     ],
     providers: [AutoDestroyService],
   templateUrl: './product-detail.html',
