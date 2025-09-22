@@ -1,0 +1,58 @@
+<div class="min-h-screen flex flex-col items-center p-6 gap-6">
+
+    <section class="w-full flex items-center justify-between px-8">
+
+        <h1 class="text-3xl font-bold">Search products</h1>
+
+        <span class="flex flex-col items-center justify-center gap-2">
+
+            <a class="px-8 py-2 bg-[#1A2131] rounded-full text-white font-bold cursor-pointer transform transition-transform duration-300 hover:scale-105" routerLink="/products/create">New product +</a>
+
+        </span>
+
+    </section>
+
+    <span class="h-2 w-full bg-slate-600/50 rounded-full mb-8"></span>
+
+    <!-- Search Box -->
+    <form class="w-full max-w-xl" [formGroup]="form">
+        <input
+            type="text"
+            placeholder="Search by product name..."
+            formControlName="name"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-slate-900"
+        />
+    </form>
+
+    <!-- Results Section -->
+    <div class="w-full max-w-2xl mt-8">
+
+        @if (error()) {
+
+            <div class="text-slate-600 text-center">
+                {{error()}}
+            </div>
+
+        }
+
+        <ul class="divide-y divide-slate-200 bg-white shadow-lg rounded-xl overflow-hidden mt-4">
+
+            @if (searchResults().length > 0) {
+
+                @for (result of searchResults(); track result.productId) {
+
+                    <li class="p-4 hover:bg-blue-50 transition flex justify-between items-center">
+                        <a [routerLink]="'/products/detail/' + result.productId" class="cursor-pointer">
+                            <h2 class="text-lg font-semibold text-slate-900">{{ result.name | capitalizeFirst }}</h2>
+                            <p class="text-slate-600 text-sm">{{ result.productId }}</p>
+                        </a>
+                        <span class="text-blue-700 font-bold">{{ result.factoryName }}</span>
+                    </li>
+
+                }
+
+            }
+
+        </ul>
+    </div>
+</div>

@@ -13,6 +13,12 @@ export type ProductCount = {
     count: number,
 }
 
+export type ProductSearchResult = {
+    name: string,
+    factoryName: string,
+    productId: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +40,12 @@ export class ProductService {
     public getCountsOfProduct(id: string): Observable<ProductCount[]> {
 
         return this.http.get<ProductCount[]>(`${environment.apiBaseUrl}/api/v1/product-instances/count-by-product/${id}`);
+
+    }
+
+    public searchByName(productName: string): Observable<ProductSearchResult[]> {
+
+        return this.http.get<ProductSearchResult[]>(`${environment.apiBaseUrl}/api/v1/products/search-summary/${productName}`);
 
     }
 }
