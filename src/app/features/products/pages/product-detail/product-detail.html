@@ -2,59 +2,46 @@
 
     <app-product-detail-header [product]="product()" />
 
+    <nav class="w-full bg-slate-800 text-white font-bold flex items-center justify-evenly shadow-xl">
+
+        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400" (click)="changeToCountsPage()" [ngClass]="mode() === ViewMode.COUNTS ? 'text-blue-400' : 'text-white'" >Counts</button>
+
+        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400" (click)="changeToInstancesPage()" [ngClass]="mode() === ViewMode.INSTANCES ? 'text-blue-400' : 'text-white'">Instances</button>
+
+    </nav>
+
     @if (error()) {
 
         <p class="text-2xl text-red-800">{{error()}}</p>
 
     }
 
-    <table class="w-[45%] mt-8 table-auto border-collapse shadow-lg rounded-xl overflow-hidden text-center">
-        <thead class="bg-slate-900 text-white text-lg font-semibold">
-        <tr>
-            @if (product().groupByColour) {
-                <th class="p-3 border border-slate-950">Colour</th>
-            }
-            @if (product().groupByWidth) {
-                <th class="p-3 border border-slate-950">Width</th>
-            }
-            @if (product().groupByLength) {
-                <th class="p-3 border border-slate-950">Length</th>
-            }
-            @if (product().groupByHeight) {
-                <th class="p-3 border border-slate-950">Height</th>
-            }
-            <th class="p-3 border border-slate-950">Count</th>
-        </tr>
-        </thead>
+    @if (mode() === ViewMode.COUNTS) {
 
-        <tbody>
-            @for (count of counts(); track $index) {
-                <tr class="odd:bg-slate-100 even:bg-slate-50 hover:bg-slate-200 transition">
-                    @if (count.colour) {
-                        <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{count.colour | capitalizeFirst}}</td>
-                    }
-                    @if (count.width) {
-                        <td class="p-3 border border-slate-300 text-slate-900">{{count.width}}</td>
-                    }
-                    @if (count.length) {
-                        <td class="p-3 border border-slate-300 text-slate-900">{{count.length}}</td>
-                    }
-                    @if (count.height) {
-                        <td class="p-3 border border-slate-300 text-slate-900">{{count.height}}</td>
-                    }
-                    <td class="p-3 border border-slate-300 font-bold text-blue-800">{{count.count}}</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        <app-product-counts [product]="product()" [counts]="counts()" />
 
+    } @else if (mode() === ViewMode.INSTANCES) {
 
+        <app-product-instances [product]="product()" [instances]="instances()" class="mb-4"/>
 
+        <div class="mt-auto w-full flex items-center justify-center mb-8 gap-4">
 
-    @if (this.counts().length < 1) {
+            <button class="p-2 px-6 rounded-lg shadow-lg"
+                    [ngClass]="previousInstancePageExists() ? 'bg-gray-300 cursor-pointer transform transition-transform duration-300 hover:scale-115' : 'bg-gray-500/50'"
+                    (click)="getProductInstancePage(currentInstancePage() - 1)"
+                    [disabled]="!previousInstancePageExists()"> <
+            </button>
 
-        <p class="text-2xl text-red-800 mt-8">No instances of {{product().name}} found.</p>
+            <p class="p-2 px-6 rounded-lg bg-gray-300 shadow-lg">{{ currentInstancePage() }}</p>
 
+            <button class="p-2 px-6 rounded-lg shadow-lg"
+                    [ngClass]="nextInstancePageExists() ? 'bg-gray-300 cursor-pointer transform transition-transform duration-300 hover:scale-115' : 'bg-gray-500/50'"
+                    (click)="getProductInstancePage(currentInstancePage() + 1)"
+                    [disabled]="!nextInstancePageExists()"> >
+            </button>
+
+        </div>
     }
+
 
 </main>

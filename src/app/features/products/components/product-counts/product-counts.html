@@ -1,0 +1,45 @@
+<table class="w-[45%] mt-8 table-auto border-collapse shadow-lg rounded-xl overflow-hidden text-center">
+    <thead class="bg-slate-900 text-white text-lg font-semibold">
+        <tr>
+            @if (product().groupByColour) {
+                <th class="p-3 border border-slate-950">Colour</th>
+            }
+            @if (product().groupByWidth) {
+                <th class="p-3 border border-slate-950">Width</th>
+            }
+            @if (product().groupByLength) {
+                <th class="p-3 border border-slate-950">Length</th>
+            }
+            @if (product().groupByHeight) {
+                <th class="p-3 border border-slate-950">Height</th>
+            }
+            <th class="p-3 border border-slate-950">Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (count of counts(); track $index) {
+            <tr class="odd:bg-slate-100 even:bg-slate-50 hover:bg-slate-200 transition">
+                @if (count.colour) {
+                    <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{count.colour | capitalizeFirst}}</td>
+                }
+                @if (count.width) {
+                    <td class="p-3 border border-slate-300 text-slate-900">{{count.width}}</td>
+                }
+                @if (count.length) {
+                    <td class="p-3 border border-slate-300 text-slate-900">{{count.length}}</td>
+                }
+                @if (count.height) {
+                    <td class="p-3 border border-slate-300 text-slate-900">{{count.height}}</td>
+                }
+                <td class="p-3 border border-slate-300 font-bold text-blue-800">{{count.count}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (this.counts().length < 1) {
+
+    <p class="text-2xl text-red-800 mt-8">No instances of {{product().name}} found.</p>
+
+}

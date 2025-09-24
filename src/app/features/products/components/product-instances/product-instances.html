@@ -1,0 +1,51 @@
+<section class="w-full flex flex-col items-center justify-items-start">
+
+    <table class="w-[65%] mt-8 table-auto border-collapse shadow-lg rounded-xl overflow-hidden text-center">
+        <thead class="bg-slate-900 text-white text-lg font-semibold">
+            <tr>
+                <th class="p-3 border border-slate-950">Instance ID</th>
+                @if (product().groupByColour) {
+                    <th class="p-3 border border-slate-950">Colour</th>
+                }
+                @if (product().groupByWidth) {
+                    <th class="p-3 border border-slate-950">Width</th>
+                }
+                @if (product().groupByLength) {
+                    <th class="p-3 border border-slate-950">Length</th>
+                }
+                @if (product().groupByHeight) {
+                    <th class="p-3 border border-slate-950">Height</th>
+                }
+                <th class="p-3 border border-slate-950">Reserved</th>
+                <th class="p-3 border border-slate-950">Saved at</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (instance of instances(); track $index) {
+                <tr class="odd:bg-slate-100 even:bg-slate-50 hover:bg-slate-200 transition">
+
+                    <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{instance.instanceId}}</td>
+
+                    @if (product().groupByColour) {
+                        <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{instance.colour! | capitalizeFirst}}</td>
+                    }
+                    @if (product().groupByWidth) {
+                        <td class="p-3 border border-slate-300 text-slate-900">{{instance.width}}</td>
+                    }
+                    @if (product().groupByLength) {
+                        <td class="p-3 border border-slate-300 text-slate-900">{{instance.length}}</td>
+                    }
+
+                    @if (product().groupByHeight) {
+                        <td class="p-3 border border-slate-300 text-slate-900">{{instance.height}}</td>
+                    }
+
+                    <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{instance.reserved}}</td>
+                    <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{instance.savedAt | date}}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</section>

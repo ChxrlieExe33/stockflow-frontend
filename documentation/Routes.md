@@ -27,12 +27,12 @@ The route structure will look something like:
   - /update/:categoryId
   - /detail/categoryId
 - /products
-  - /count/:prodId
+  - /detail/:prodId
   - /instances/:prodId
   - /instances/edit/:prodId
   - /create
   - /update/:prodId
-  - /intake-order
+  - /receive-delivery
 - /orders
   - /create
   - /edit/:orderId

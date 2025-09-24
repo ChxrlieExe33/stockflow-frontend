@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {CreateProductModel} from '../../../core/models/products/create-product.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {Product} from '../../../core/models/products/product.model';
+import {ProductInstance} from '../../../core/models/products/product-instance.model';
 
 export type ProductCount = {
     width: number | null,
@@ -17,6 +18,16 @@ export type ProductSearchResult = {
     name: string,
     factoryName: string,
     productId: string,
+}
+
+export type ProductInstancesPage = {
+    content: ProductInstance[],
+    page: {
+        number: number,
+        size: number,
+        totalElements: number,
+        totalPages: number
+    }
 }
 
 @Injectable({
@@ -48,4 +59,13 @@ export class ProductService {
         return this.http.get<ProductSearchResult[]>(`${environment.apiBaseUrl}/api/v1/products/search-summary/${productName}`);
 
     }
+
+    public getInstancesByProduct(id: string, page: number): Observable<ProductInstancesPage> {
+
+        const params = new HttpParams().append('page', page);
+
+        return this.http.get<ProductInstancesPage>(`${environment.apiBaseUrl}/api/v1/product-instances/by-root-product/${id}`, {params});
+
+    }
+
 }
