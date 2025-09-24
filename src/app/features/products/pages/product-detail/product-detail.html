@@ -10,19 +10,24 @@
 
     </nav>
 
-    @if (error()) {
-
-        <p class="text-2xl text-red-800">{{error()}}</p>
-
-    }
-
     @if (mode() === ViewMode.COUNTS) {
+
+        @if (countsError()) {
+
+            <p class="text-2xl text-red-800">{{countsError()}}</p>
+
+        }
 
         <app-product-counts [product]="product()" [counts]="counts()" />
 
     } @else if (mode() === ViewMode.INSTANCES) {
 
         <app-product-instances [product]="product()" [instances]="instances()" class="mb-4"/>
+
+        @if (instancesError()) {
+
+            <p class="text-2xl text-red-800">{{instancesError()}}</p>
+        }
 
         <div class="mt-auto w-full flex items-center justify-center mb-8 gap-4">
 

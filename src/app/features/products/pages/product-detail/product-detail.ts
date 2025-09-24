@@ -38,7 +38,9 @@ export class ProductDetail implements OnInit {
     previousInstancePageExists = signal<boolean>(false);
     nextInstancePageExists = signal<boolean>(false);
 
-    error = signal<string | undefined>(undefined);
+    countsError = signal<string | undefined>(undefined);
+
+    instancesError = signal<string | undefined>(undefined);
 
     mode = signal<ViewMode>(ViewMode.COUNTS);
 
@@ -65,24 +67,38 @@ export class ProductDetail implements OnInit {
 
             }, error: error => {
 
-                this.handleError(error);
+                this.handleCountsError(error);
 
             }
         })
 
     }
 
-    handleError(err: any) {
+    handleCountsError(err: any) {
 
         if (err.error && typeof err.error === 'object' && err.error.message) {
             console.log(err.error.message);
-            this.error.set(err.error.message);
+            this.countsError.set(err.error.message);
         } else {
             console.log(err);
-            this.error.set("Something went wrong when getting the product counts, please try again later.");
+            this.countsError.set("Something went wrong when getting the product counts, please try again later.");
         }
 
     }
+
+    handleInstancesError(err: any) {
+
+        if (err.error && typeof err.error === 'object' && err.error.message) {
+            console.log(err.error.message);
+            this.instancesError.set(err.error.message);
+        } else {
+            console.log(err);
+            this.instancesError.set("Something went wrong when getting the product counts, please try again later.");
+        }
+
+    }
+
+
 
     changeToInstancesPage() {
 
@@ -105,7 +121,7 @@ export class ProductDetail implements OnInit {
 
             }, error: error => {
 
-                this.handleError(error);
+                this.handleInstancesError(error);
             }
         })
 
@@ -122,7 +138,7 @@ export class ProductDetail implements OnInit {
 
             }, error: error => {
 
-                this.handleError(error);
+                this.handleInstancesError(error);
             }
         })
 
