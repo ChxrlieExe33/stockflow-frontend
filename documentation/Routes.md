@@ -32,7 +32,8 @@ The route structure will look something like:
   - /instances/edit/:prodId
   - /create
   - /update/:prodId
-  - /receive-delivery
+- /deliveries
+  - /receive
 - /orders
   - /create
   - /edit/:orderId

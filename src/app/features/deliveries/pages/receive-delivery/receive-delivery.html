@@ -1,0 +1,45 @@
+<main class="w-full min-h-screen flex flex-col items-center justify-items-start p-8 gap-8">
+
+    <h1 class="text-2xl font-bold">Receive delivery</h1>
+
+    <form class="w-[80%] bg-white rounded-3xl min-h-[600px] flex flex-col items-center justify-items-start px-34 py-8" [formGroup]="searchForm">
+
+        <label for="productName" class="mr-auto text-xl font-semibold mb-2">Product name</label>
+        <input type="text" name="productName" id="productName" placeholder="Product name..." class="px-6 py-2 rounded-2xl bg-slate-200 w-full" formControlName="productName">
+
+        <ul class="w-full flex flex-col items-center justify-items-start gap-2 pt-4">
+
+            @if (productResults().length > 0) {
+
+                @for (prod of productResults(); track prod.productId) {
+
+                    <li class="w-full bg-slate-200 shadow-lg rounded-3xl flex items-center justify-between py-3 px-8 transform transition-transform duration-300 hover:scale-105 hover:bg-slate-300" (click)="selectProduct(prod.productId, prod.name)">
+
+                        <p class="text-xl">{{prod.name | capitalizeFirst}}</p>
+
+                        <p class="text-lg">{{prod.factoryName}}</p>
+
+                    </li>
+
+                }
+
+            }
+
+        </ul>
+
+        @if (selectedProduct()) {
+
+            <div class="w-full bg-slate-300 rounded-2xl py-2 px-6 flex items-center justify-between">
+
+                <h1 class="text-2xl">{{selectedProduct()!.name | capitalizeFirst}}</h1>
+
+                <button type="button" class="py-2 px-4 bg-red-600 rounded-xl font-bold transform transition-transform duration-300 hover:scale-105" (click)="unselectCurrentProduct()">X</button>
+
+            </div>
+
+        }
+
+    </form>
+
+
+</main>
