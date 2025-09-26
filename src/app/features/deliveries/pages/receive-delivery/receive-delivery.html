@@ -4,16 +4,17 @@
 
     <form class="w-[80%] bg-white rounded-3xl min-h-[600px] flex flex-col items-center justify-items-start px-34 py-8" [formGroup]="searchForm">
 
-        <label for="productName" class="mr-auto text-xl font-semibold mb-2">Product name</label>
-        <input type="text" name="productName" id="productName" placeholder="Product name..." class="px-6 py-2 rounded-2xl bg-slate-200 w-full" formControlName="productName">
+        @if (!selectedProduct()) {
+            <input type="text" name="productName" id="productName" placeholder="Search for product..." class="px-6 py-2 rounded-2xl bg-slate-200 w-full" formControlName="productName">
+        }
 
-        <ul class="w-full flex flex-col items-center justify-items-start gap-2 pt-4">
+        @if (productResults().length > 0) {
 
-            @if (productResults().length > 0) {
+            <ul class="w-full flex flex-col items-center justify-items-start gap-2 pt-4">
 
                 @for (prod of productResults(); track prod.productId) {
 
-                    <li class="w-full bg-slate-200 shadow-lg rounded-3xl flex items-center justify-between py-3 px-8 transform transition-transform duration-300 hover:scale-105 hover:bg-slate-300" (click)="selectProduct(prod.productId, prod.name)">
+                    <li class="w-full bg-slate-200 shadow-lg rounded-3xl flex items-center justify-between py-3 px-8 transform transition-transform duration-300 hover:scale-105 hover:bg-slate-300" (click)="selectProduct(prod.productId)">
 
                         <p class="text-xl">{{prod.name | capitalizeFirst}}</p>
 
@@ -23,23 +24,97 @@
 
                 }
 
-            }
+            </ul>
 
-        </ul>
+        }
+
+
 
         @if (selectedProduct()) {
 
-            <div class="w-full bg-slate-300 rounded-2xl py-2 px-6 flex items-center justify-between">
+            <div class="w-full bg-slate-800 rounded-2xl py-2 px-6 flex items-center justify-between mt-4">
 
-                <h1 class="text-2xl">{{selectedProduct()!.name | capitalizeFirst}}</h1>
+                <h1 class="text-2xl text-white">{{selectedProduct()!.name | capitalizeFirst}}</h1>
 
                 <button type="button" class="py-2 px-4 bg-red-600 rounded-xl font-bold transform transition-transform duration-300 hover:scale-105" (click)="unselectCurrentProduct()">X</button>
 
             </div>
 
+            <div class="w-full bg-slate-800 rounded-2xl py-2 px-6 flex items-center justify-between mt-4" [formGroup]="productOptionsForm">
+
+                @if (selectedProduct()!.groupByWidth) {
+                    <input type="text" id="width" name="width" placeholder="width" class="bg-white px-4 py-2 rounded-xl" formControlName="width">
+                }
+
+                @if (selectedProduct()!.groupByLength) {
+                    <input type="text" id="length" name="length" placeholder="length" class="bg-white px-4 py-2 rounded-xl" formControlName="length">
+                }
+
+                @if (selectedProduct()!.groupByHeight) {
+                    <input type="text" id="height" name="height" placeholder="height" class="bg-white px-4 py-2 rounded-xl" formControlName="height">
+                }
+
+                @if (selectedProduct()!.groupByColour) {
+                    <input type="text" id="colour" name="colour" placeholder="colour" class="bg-white px-4 py-2 rounded-xl" formControlName="colour">
+                }
+
+                <input type="number" placeholder="Count" class="bg-white px-4 py-2 rounded-xl" formControlName="count">
+
+                <button type="button" class="px-4 py-2 bg-blue-300 rounded-xl font-bold" (click)="addCurrentSelectionForSaving()">Add +</button>
+
+            </div>
+
+        }
+
+        @if (newInstances().length > 0) {
+
+            <table class="w-full mt-8 table-auto border-collapse shadow-lg rounded-xl overflow-hidden text-center">
+                <thead class="bg-slate-900 text-white text-lg font-semibold">
+                <tr>
+
+                    <th class="p-3 border border-slate-950">Product</th>
+
+                    <th class="p-3 border border-slate-950">Colour</th>
+
+
+                    <th class="p-3 border border-slate-950">Width</th>
+
+
+                    <th class="p-3 border border-slate-950">Length</th>
+
+
+                    <th class="p-3 border border-slate-950">Height</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                    @for (inst of newInstances(); track $index) {
+                        <tr class="odd:bg-slate-100 even:bg-slate-50 hover:bg-slate-200 transition">
+
+                            <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{inst.rootProductName | capitalizeFirst}}</td>
+
+                            <td class="p-3 border border-slate-300 text-slate-900 font-medium">{{inst.width ? inst.width : "N/A"}}</td>
+
+
+                            <td class="p-3 border border-slate-300 text-slate-900">{{inst.length ? inst.length : "N/A"}}</td>
+
+
+                            <td class="p-3 border border-slate-300 text-slate-900">{{inst.height ? inst.height : "N/A"}}</td>
+
+
+                            <td class="p-3 border border-slate-300 text-slate-900">{{inst.colour ? inst.colour : "N/A"}}</td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         }
 
     </form>
+
 
 
 </main>
