@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {Product} from '../../../core/models/products/product.model';
 import {ProductInstance} from '../../../core/models/products/product-instance.model';
+import {NewProductInstanceModel} from '../../../core/models/products/new-prod-instance.model';
 
 export type ProductCount = {
     width: number | null,
@@ -65,6 +66,12 @@ export class ProductService {
         const params = new HttpParams().append('page', page);
 
         return this.http.get<ProductInstancesPage>(`${environment.apiBaseUrl}/api/v1/product-instances/by-root-product/${id}`, {params});
+
+    }
+
+    public receiveNewProductInstances(instances: NewProductInstanceModel[]) : Observable<void> {
+
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/v1/product-instances`, instances);
 
     }
 
