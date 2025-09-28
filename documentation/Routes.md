@@ -28,16 +28,16 @@ The route structure will look something like:
   - /detail/categoryId
 - /products
   - /detail/:prodId
-  - /instances/:prodId
   - /instances/edit/:prodId
   - /create
   - /update/:prodId
 - /deliveries
   - /receive
-- /orders
-  - /create
-  - /edit/:orderId
-  - /all
+- /sales
+  - /
+  - /new
+  - /detail/:saleId
+  - /edit/:saleId
 - /auth
   - /login
 - /admin
