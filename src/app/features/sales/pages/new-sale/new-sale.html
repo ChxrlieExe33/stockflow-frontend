@@ -5,25 +5,25 @@
     <section class="w-full min-h-[600px] bg-white flex items-center justify-between px-4">
 
         <!-- Left side sale information -->
-        <form class="flex flex-col items-start justify-items-start  w-[30%]">
+        <form class="flex flex-col items-start justify-items-start  w-[30%]" [formGroup]="saleInformationForm">
 
             <h1 class="text-2xl font-semibold self-center mb-8">Sale information</h1>
 
             <input type="text" placeholder="Sale reference..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
-         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4" formControlName="reference">
 
             <label for="deliveryDate">Delivery date</label>
             <input type="date" id="deliveryDate" class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
-         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"  formControlName="deliveryDate">
 
             <input type="text" placeholder="Delivery address..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
-         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"  formControlName="address">
 
             <input type="text" placeholder="Client phone number..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
-         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"  formControlName="phoneNumber">
 
             <textarea placeholder="Extra information..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
-         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 field-sizing-content"></textarea>
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 field-sizing-content"  formControlName="extraInformation"></textarea>
 
         </form>
 
@@ -93,7 +93,7 @@
                 @for (res of productInstanceResults(); track $index) {
 
                     <div class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm flex items-center justify-between mb-2
-                    hover:text-blue-300 transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+                    hover:text-blue-300 transform transition-transform duration-300 hover:scale-105 cursor-pointer" (click)="addInstanceToSale(res)">
 
                         <p>{{ $index }}</p>
 
