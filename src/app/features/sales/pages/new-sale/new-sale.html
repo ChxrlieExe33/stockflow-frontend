@@ -1,5 +1,112 @@
-<main class="w-full min-h-screen flex flex-col items-center justify-center">
+<main class="w-full min-h-screen flex flex-col items-center justify-items-start pt-8 px-4 gap-6">
 
     <h1 class="text-2xl font-bold">New sale</h1>
+
+    <section class="w-full min-h-[600px] bg-white flex items-center justify-between px-4">
+
+        <!-- Left side sale information -->
+        <form class="flex flex-col items-start justify-items-start  w-[30%]">
+
+            <h1 class="text-2xl font-semibold self-center mb-8">Sale information</h1>
+
+            <input type="text" placeholder="Sale reference..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+
+            <label for="deliveryDate">Delivery date</label>
+            <input type="date" id="deliveryDate" class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+
+            <input type="text" placeholder="Delivery address..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+
+            <input type="text" placeholder="Client phone number..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4">
+
+            <textarea placeholder="Extra information..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 field-sizing-content"></textarea>
+
+        </form>
+
+        <!-- Right side product selection -->
+        <form class="flex flex-col min-w-[40%] items-start justify-items-start" [formGroup]="searchForm">
+
+            <h1 class="text-2xl font-semibold self-center mb-8">Product selection</h1>
+
+            @if (!selectedProduct()) {
+
+                <input type="text" placeholder="Product name..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4" formControlName="name">
+
+            } @else {
+
+                <div class="w-full bg-slate-800 rounded-2xl py-2 px-6 flex items-center justify-between mt-4">
+
+                    <h1 class="text-2xl text-white">{{selectedProduct()!.name | capitalizeFirst}}</h1>
+
+                    <button type="button" class="py-2 px-4 bg-red-600 rounded-xl font-bold transform transition-transform duration-300 hover:scale-105" (click)="unselectCurrentProduct()">X</button>
+
+                </div>
+
+                <form class="w-full bg-slate-800 rounded-2xl py-2 px-6 flex items-center justify-between my-4 gap-2" [formGroup]="productOptionsForm">
+
+                    @if (selectedProduct()!.groupByWidth) {
+                        <input type="text" id="width" name="width" placeholder="width" class="bg-white px-4 py-2 rounded-xl" formControlName="width">
+                    }
+
+                    @if (selectedProduct()!.groupByLength) {
+                        <input type="text" id="length" name="length" placeholder="length" class="bg-white px-4 py-2 rounded-xl" formControlName="length">
+                    }
+
+                    @if (selectedProduct()!.groupByHeight) {
+                        <input type="text" id="height" name="height" placeholder="height" class="bg-white px-4 py-2 rounded-xl" formControlName="height">
+                    }
+
+                    @if (selectedProduct()!.groupByColour) {
+                        <input type="text" id="colour" name="colour" placeholder="colour" class="bg-white px-4 py-2 rounded-xl" formControlName="colour">
+                    }
+
+                    <button type="button" class="px-4 py-2 bg-blue-300 rounded-xl font-bold" (click)="getInstancesOfCurrentSelection()">Find</button>
+
+                </form>
+
+            }
+
+            @if (productResults().length > 0 && !selectedProduct()) {
+
+                @for (res of productResults(); track res.productId) {
+
+                    <div class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm flex items-center justify-between mb-2
+                    hover:text-blue-300 transform transition-transform duration-300 hover:scale-105 cursor-pointer" (click)="selectProduct(res.productId)">
+
+                        <p>{{res.name | capitalizeFirst}}</p>
+
+                        <p>{{res.factoryName}}</p>
+
+                    </div>
+
+                }
+
+            }
+
+            @if (productInstanceResults().length > 0 && selectedProduct()) {
+
+                @for (res of productInstanceResults(); track $index) {
+
+                    <div class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm flex items-center justify-between mb-2
+                    hover:text-blue-300 transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+
+                        <p>{{ $index }}</p>
+
+                        <p>{{ res.instanceId }}</p>
+
+                    </div>
+
+                }
+
+            }
+
+        </form>
+
+    </section>
 
 </main>

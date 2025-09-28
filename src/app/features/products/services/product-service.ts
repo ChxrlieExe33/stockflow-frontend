@@ -75,4 +75,20 @@ export class ProductService {
 
     }
 
+    public findInstancesOfProductWithFilters(prodId: string, filters: Map<string, string | null>) : Observable<ProductInstance[]> {
+
+        let params = new HttpParams();
+
+        for (const [key, value] of filters.entries()) {
+            if (value !== null) {
+                params = params.append(key, value);
+            }
+        }
+
+        return this.http.get<ProductInstance[]>(
+            `${environment.apiBaseUrl}/api/v1/product-instances/search-by-product-id-and-available/${prodId}`,
+            { params }
+        );
+    }
+
 }
