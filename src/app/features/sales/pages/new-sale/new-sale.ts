@@ -7,21 +7,15 @@ import {catchError, filter, tap} from 'rxjs/operators';
 import {Product} from '../../../../core/models/products/product.model';
 import {CapitalizeFirstPipe} from '../../../../shared/pipes/capitalize-first.pipe';
 import {ProductInstance} from '../../../../core/models/products/product-instance.model';
-
-type InstanceData = {
-    productName: string,
-    instanceId: string,
-    width: number | null,
-    length: number | null,
-    height: number | null,
-    colour: string | null,
-}
+import {InstanceData} from '../../../../core/models/sales/sale-product-instance-data.model';
+import {SaleProductInstancesTable} from '../../components/sale-product-instances-table/sale-product-instances-table';
 
 @Component({
   selector: 'app-new-sale',
     imports: [
         ReactiveFormsModule,
-        CapitalizeFirstPipe
+        CapitalizeFirstPipe,
+        SaleProductInstancesTable
     ],
     providers: [AutoDestroyService],
   templateUrl: './new-sale.html',
@@ -44,6 +38,7 @@ export class NewSale implements OnInit {
     // The array of product instances selected for the sale.
     protected chosenInstances = signal<ProductInstance[]>([]);
 
+    // A separate list of currently "taken" instance IDs, used to filter out already selected instances on future queries during the sale processing.
     protected chosenInstanceIds = signal<string[]>([]);
 
     // A projection of the selected instances for the sale for a table view.
@@ -75,6 +70,29 @@ export class NewSale implements OnInit {
         this.subscribeToSearch()
     }
 
+    get referenceInvalid() {
+        return this.saleInformationForm.controls.reference.invalid &&
+            this.saleInformationForm.controls.reference.touched &&
+            this.saleInformationForm.controls.reference.dirty;
+    }
+
+    get deliveryDateInvalid() {
+        return this.saleInformationForm.controls.deliveryDate.invalid &&
+            this.saleInformationForm.controls.deliveryDate.touched &&
+            this.saleInformationForm.controls.deliveryDate.dirty;
+    }
+
+    get addressInvalid() {
+        return this.saleInformationForm.controls.address.invalid &&
+            this.saleInformationForm.controls.address.touched &&
+            this.saleInformationForm.controls.address.dirty;
+    }
+
+    get phoneNumInvalid() {
+        return this.saleInformationForm.controls.phoneNumber.invalid &&
+            this.saleInformationForm.controls.phoneNumber.touched &&
+            this.saleInformationForm.controls.phoneNumber.dirty;
+    }
 
     /**
      * Subscribe to value changes in the product search bar, and get results based on the provided name.
