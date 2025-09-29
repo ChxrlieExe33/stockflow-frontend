@@ -35,10 +35,7 @@ export class NewSale implements OnInit {
     // The product instances found derived from the current selected product and the applied filters.
     protected productInstanceResults = signal<ProductInstance[]>([]);
 
-    // The array of product instances selected for the sale.
-    protected chosenInstances = signal<ProductInstance[]>([]);
-
-    // A separate list of currently "taken" instance IDs, used to filter out already selected instances on future queries during the sale processing.
+    // The list of product instance IDs selected for the sale.
     protected chosenInstanceIds = signal<string[]>([]);
 
     // A projection of the selected instances for the sale for a table view.
@@ -187,6 +184,7 @@ export class NewSale implements OnInit {
         ).subscribe({
             next: (res) => {
 
+                // Remove any instances that are already "taken" during this sale from the search result (in case the same query is done twice and the same instance appears again).
                 const alreadyTakenRemoved = res.filter(inst => !this.chosenInstanceIds().includes(inst.instanceId))
 
                 this.productInstanceResults.set(alreadyTakenRemoved);
@@ -201,8 +199,6 @@ export class NewSale implements OnInit {
 
     addInstanceToSale(instance : ProductInstance) {
 
-        this.chosenInstances.set([instance, ...this.chosenInstances()]);
-
         const data = <InstanceData>{
             productName: this.selectedProduct()!.name,
             instanceId: instance.instanceId,
@@ -215,6 +211,7 @@ export class NewSale implements OnInit {
         this.chosenInstancesData.set([data, ...this.chosenInstancesData()]);
         this.chosenInstanceIds.set([instance.instanceId, ...this.chosenInstanceIds()])
 
+        // Remove the chosen instance from the search results.
         const afterRemoval = this.productInstanceResults().filter(instance => !this.chosenInstanceIds().includes(instance.instanceId))
         this.productInstanceResults.set(afterRemoval)
 
