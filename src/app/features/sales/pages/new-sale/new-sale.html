@@ -7,7 +7,7 @@
     <section class="w-full min-h-[500px] flex items-start justify-between px-4">
 
         <!-- Left side sale information -->
-        <form class="flex flex-col items-start justify-items-start w-[30%] gap-4" [formGroup]="saleInformationForm">
+        <form class="flex flex-col items-start justify-items-start w-[30%] gap-4" [formGroup]="saleInformationForm" (ngSubmit)="submitSale$.next()">
 
             <h1 class="text-2xl font-semibold self-center mb-8">Sale information</h1>
 
@@ -45,6 +45,8 @@
             <textarea placeholder="Extra information..." class="w-full rounded-2xl border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm
          focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 field-sizing-content"  formControlName="extraInformation"></textarea>
 
+            <button type="submit" class="px-6 py-2 rounded-3xl  text-white font-bold" [disabled]="saleInvalid"
+                [ngClass]="saleInvalid ? 'bg-slate-800/40' : 'bg-slate-800 transform transition-transform duration-300 hover:scale-105 cursor-pointer'" >Submit sale</button>
 
         </form>
 
@@ -130,9 +132,15 @@
 
     </section>
 
-    @if (chosenInstances().length > 0) {
+    @if (chosenInstanceIds().length > 0) {
 
-        <app-sale-product-instances-table [instances]="chosenInstancesData()" class="w-[80%] mb-8"/>
+        <span class="w-full flex flex-col items-center justify-center">
+
+            <h1 class="text-2xl font-bold">Selected product instances</h1>
+
+            <app-sale-product-instances-table [instances]="chosenInstancesData()" class="w-[80%] mb-8"/>
+
+        </span>
 
     }
 

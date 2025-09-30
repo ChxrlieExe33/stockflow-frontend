@@ -2,20 +2,25 @@ import {Component, OnInit, signal} from '@angular/core';
 import {ProductSearchResult, ProductService} from '../../../products/services/product-service';
 import {AutoDestroyService} from '../../../../core/services/utils/auto-destroy.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {debounceTime, EMPTY, switchMap, takeUntil} from 'rxjs';
+import {debounceTime, EMPTY, exhaustMap, Subject, switchMap, takeUntil} from 'rxjs';
 import {catchError, filter, tap} from 'rxjs/operators';
 import {Product} from '../../../../core/models/products/product.model';
 import {CapitalizeFirstPipe} from '../../../../shared/pipes/capitalize-first.pipe';
 import {ProductInstance} from '../../../../core/models/products/product-instance.model';
 import {InstanceData} from '../../../../core/models/sales/sale-product-instance-data.model';
 import {SaleProductInstancesTable} from '../../components/sale-product-instances-table/sale-product-instances-table';
+import {SalesService} from '../../services/sales-service';
+import {NewSaleModel} from '../../../../core/models/sales/new-sale.model';
+import {Router} from '@angular/router';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-new-sale',
     imports: [
         ReactiveFormsModule,
         CapitalizeFirstPipe,
-        SaleProductInstancesTable
+        SaleProductInstancesTable,
+        NgClass
     ],
     providers: [AutoDestroyService],
   templateUrl: './new-sale.html',
@@ -41,6 +46,8 @@ export class NewSale implements OnInit {
     // A projection of the selected instances for the sale for a table view.
     protected chosenInstancesData = signal<InstanceData[]>([]);
 
+    protected submitSale$ = new Subject<void>();
+
     searchForm = new FormGroup({
         name: new FormControl('')
     })
@@ -54,17 +61,20 @@ export class NewSale implements OnInit {
 
     saleInformationForm = new FormGroup({
         reference: new FormControl('', [Validators.required]),
-        deliveryDate: new FormControl(new Date(), [Validators.required]),
+        deliveryDate: new FormControl(null, [Validators.required]),
         address: new FormControl('', [Validators.required]),
         phoneNumber: new FormControl('', [Validators.required]),
         extraInformation: new FormControl(''),
     })
 
     constructor(private readonly productService: ProductService,
-                private readonly destroy$: AutoDestroyService) {}
+                private readonly destroy$: AutoDestroyService,
+                private readonly  saleService: SalesService,
+                private readonly router: Router) {}
 
     ngOnInit() {
         this.subscribeToSearch()
+        this.subscribeToSubmitSale()
     }
 
     get referenceInvalid() {
@@ -89,6 +99,12 @@ export class NewSale implements OnInit {
         return this.saleInformationForm.controls.phoneNumber.invalid &&
             this.saleInformationForm.controls.phoneNumber.touched &&
             this.saleInformationForm.controls.phoneNumber.dirty;
+    }
+
+    get saleInvalid() {
+
+        return this.saleInformationForm.invalid || this.chosenInstanceIds().length < 1;
+
     }
 
     /**
@@ -121,6 +137,40 @@ export class NewSale implements OnInit {
 
             }
         });
+
+    }
+
+    subscribeToSubmitSale() {
+
+        this.submitSale$.pipe(
+            takeUntil(this.destroy$),
+            filter(() => !this.saleInvalid),
+            exhaustMap(() => {
+
+                const sale = <NewSaleModel>{
+                    reference: this.saleInformationForm.controls.reference.value!,
+                    deliveryDate: this.saleInformationForm.controls.deliveryDate.value!,
+                    deliveryAddress: this.saleInformationForm.controls.address.value!,
+                    deliveryPhoneNumber: this.saleInformationForm.controls.phoneNumber.value!,
+                    extraInformation: this.saleInformationForm.controls.extraInformation.value!,
+                    productInstanceIds: this.chosenInstanceIds(),
+                }
+
+                return this.saleService.submitNewSale(sale).pipe(
+                    catchError((err) => {
+                        this.handleError(err);
+                        return EMPTY;
+                    })
+                )
+
+            })
+        ).subscribe({
+            next: () => {
+
+                this.router.navigateByUrl('/sales').then(() => {});
+
+            }
+        })
 
     }
 
