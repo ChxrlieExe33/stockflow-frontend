@@ -1,6 +1,6 @@
-<main class="w-full min-h-screen flex flex-col items-center justify-items-start gap-6 py-8 px-6">
+<main class="w-full min-h-screen flex flex-col items-center justify-items-start py-8 px-6">
 
-    <section class="w-full flex items-center justify-between px-8">
+    <section class="w-full flex items-center justify-between px-8 pb-4">
 
         <h1 class="text-3xl font-bold">All sales</h1>
 
@@ -13,5 +13,17 @@
     </section>
 
     <span class="h-2 w-full bg-slate-600/50 rounded-full mb-8"></span>
+
+    <span class="w-full flex flex-col items-start justify-center gap-1">
+
+        <p class="text-lg mr-auto">Ordered by {{orderBy() === 'delivery' ? 'Delivery date' : 'Recently ordered'}}</p>
+        <button type="button" class="px-6 py-2 bg-slate-800 text-white font-bold mr-auto rounded-3xl cursor-pointer
+            transform transition-transform duration-300 hover:scale-105" (click)="toggleOrder()">Order by {{orderBy() === 'delivery' ? 'Recently ordered' : 'Delivery date'}}</button>
+
+    </span>
+
+    @if (currentLoadedSales().length > 0) {
+        <app-sales-list-table [sales]="currentLoadedSales()" class="mt-4"/>
+    }
 
 </main>
