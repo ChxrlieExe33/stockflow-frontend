@@ -26,4 +26,22 @@
         <app-sales-list-table [sales]="currentLoadedSales()" class="mt-4"/>
     }
 
+    <div class="mt-auto w-full flex items-center justify-center mb-8 gap-4">
+
+        <button class="p-2 px-6 rounded-lg shadow-lg"
+                [ngClass]="prevPageExists() ? 'bg-gray-300 cursor-pointer transform transition-transform duration-300 hover:scale-115' : 'bg-gray-500/50'"
+                (click)="getSales(currentPage() - 1)"
+                [disabled]="!prevPageExists()"> <
+        </button>
+
+        <p class="p-2 px-6 rounded-lg bg-gray-300 shadow-lg">{{ currentPage() }}</p>
+
+        <button class="p-2 px-6 rounded-lg shadow-lg"
+                [ngClass]="nextPageExists() ? 'bg-gray-300 cursor-pointer transform transition-transform duration-300 hover:scale-115' : 'bg-gray-500/50'"
+                (click)="getSales(currentPage() + 1)"
+                [disabled]="!nextPageExists()"> >
+        </button>
+
+    </div>
+
 </main>

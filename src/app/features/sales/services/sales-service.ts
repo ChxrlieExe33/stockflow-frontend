@@ -30,6 +30,12 @@ export class SalesService {
 
     }
 
+    getSaleById(id: number): Observable<SaleInfoModel> {
+
+        return this.http.get<SaleInfoModel>(`${environment.apiBaseUrl}/api/v1/orders/${id}`);
+
+    }
+
     submitNewSale(sale: NewSaleModel) : Observable<void> {
 
         return this.http.post<void>(`${environment.apiBaseUrl}/api/v1/orders`, sale)

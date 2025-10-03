@@ -1,6 +1,7 @@
 import {Component, input} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {SaleInfoModel} from '../../../../core/models/sales/sale-info.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sales-list-table',
@@ -13,5 +14,13 @@ import {SaleInfoModel} from '../../../../core/models/sales/sale-info.model';
 export class SalesListTable {
 
     sales = input.required<SaleInfoModel[]>();
+
+    constructor(private readonly router: Router) {}
+
+    navigateToSaleDetail(id: string) {
+
+        this.router.navigate(['/sales','detail', id]).then();
+
+    }
 
 }

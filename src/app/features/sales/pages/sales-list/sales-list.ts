@@ -3,12 +3,14 @@ import {RouterLink} from '@angular/router';
 import {SaleInfoPage, SalesService} from '../../services/sales-service';
 import {SaleInfoModel} from '../../../../core/models/sales/sale-info.model';
 import {SalesListTable} from '../../components/sales-list-table/sales-list-table';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-sales-list',
     imports: [
         RouterLink,
-        SalesListTable
+        SalesListTable,
+        NgClass
     ],
   templateUrl: './sales-list.html',
   styleUrl: './sales-list.css'
@@ -29,17 +31,17 @@ export class SalesList implements OnInit {
 
     ngOnInit() {
 
-        this.getFirstSales();
+        this.getSales(this.currentPage());
 
     }
 
-    getFirstSales() {
+    getSales(page: number) {
 
-        this.salesService.getSales(this.currentPage(), this.orderBy()).subscribe({
+        this.salesService.getSales(page, this.orderBy()).subscribe({
             next: res => {
 
                 this.currentLoadedSales.set(res.content);
-                this.handlePagination(res, this.currentPage());
+                this.handlePagination(res, page);
 
             }, error: err => {
                 this.handleError(err);
@@ -58,7 +60,7 @@ export class SalesList implements OnInit {
             this.orderBy.set('delivery');
         }
 
-        this.getFirstSales();
+        this.getSales(0);
 
     }
 

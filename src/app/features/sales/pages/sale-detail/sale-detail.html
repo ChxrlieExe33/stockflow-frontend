@@ -1,0 +1,27 @@
+<main class="w-full min-h-screen flex flex-col items-center justify-items-start">
+
+    <header class="w-full bg-white min-h-[300px] shadow-xl flex items-center justify-between px-20">
+
+        <!-- Right side -->
+        <section class="flex flex-col items-start justify-items-start gap-2">
+
+            <h1 class="text-xl font-bold">{{sale().reference}}</h1>
+            <p class="text-lg">Ordered: {{sale().orderedAt | date}}</p>
+            <p class="text-lg">Sold by: <b>{{sale().soldBy | capitalizeFirst}}</b></p>
+            <p class="text-lg">Delivered: {{sale().delivered ? 'Yes' : 'No'}}</p>
+            <p>{{sale().orderId}}</p>
+
+        </section>
+
+        <section class="flex flex-col items-start justify-items-start gap-2 max-w-[30%]">
+
+            <p><b>Delivery date</b>: {{sale().deliveryDate | date}}</p>
+            <p><b>Address</b>: {{sale().deliveryAddress}}</p>
+            <p><b>Contact</b>: {{sale().deliveryPhoneNumber}}</p>
+            <p><b>Instructions</b>: {{sale().extraInformation}}</p>
+
+        </section>
+
+    </header>
+
+</main>
