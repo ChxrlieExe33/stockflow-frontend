@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {SalesList} from './pages/sales-list/sales-list';
 import {NewSale} from './pages/new-sale/new-sale';
 import {SaleDetail} from './pages/sale-detail/sale-detail';
-import {saleDetailResolver} from '../../core/resolvers/sales.resolver';
+import {saleDetailResolver} from './resolvers/sales.resolver';
 
 export const salesRoutes : Routes = [
     {

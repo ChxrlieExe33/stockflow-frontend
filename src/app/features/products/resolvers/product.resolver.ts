@@ -1,15 +1,15 @@
 import {ResolveFn, Router} from '@angular/router';
 import {catchError, Observable, of} from 'rxjs';
 import {inject} from '@angular/core';
-import {SaleInfoModel} from '../models/sales/sale-info.model';
-import {SalesService} from '../../features/sales/services/sales-service';
+import {ProductService} from '../services/product-service';
+import {Product} from '../../../core/models/products/product.model';
 
-export const saleDetailResolver: ResolveFn<SaleInfoModel | undefined> = (activatedRoute, routerState): Observable<SaleInfoModel | undefined> => {
+export const productDetailResolver: ResolveFn<Product | undefined> = (activatedRoute, routerState): Observable<Product | undefined> => {
 
-    const saleService = inject(SalesService);
+    const productService = inject(ProductService);
     const router = inject(Router)
 
-    return saleService.getSaleById(activatedRoute.params['saleId']).pipe(
+    return productService.getProductDetail(activatedRoute.params['productId']).pipe(
         catchError(err => {
 
             let error: string;
@@ -19,7 +19,7 @@ export const saleDetailResolver: ResolveFn<SaleInfoModel | undefined> = (activat
                 error = err.error.message;
             } else {
                 console.log(err);
-                error = "Something went wrong when fetching the sale, please try again later.";
+                error = "Something went wrong when fetching the product, please try again later.";
             }
 
             router.navigate(['/not-found'], {queryParams: {message: error}}).then();

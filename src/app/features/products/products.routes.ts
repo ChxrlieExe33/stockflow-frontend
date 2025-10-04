@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {CreateProduct} from './pages/create-product/create-product';
 import {ProductDetail} from './pages/product-detail/product-detail';
-import {productDetailResolver} from '../../core/resolvers/product.resolver';
+import {productDetailResolver} from './resolvers/product.resolver';
 import {ProductSearch} from './pages/product-search/product-search';
 
 export const productRoutes : Routes = [

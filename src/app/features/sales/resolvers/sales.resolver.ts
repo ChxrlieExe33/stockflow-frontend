@@ -1,14 +1,15 @@
 import {ResolveFn, Router} from '@angular/router';
 import {catchError, Observable, of} from 'rxjs';
 import {inject} from '@angular/core';
-import {CategoryService} from '../../features/categories/services/category-service';
+import {SaleInfoModel} from '../../../core/models/sales/sale-info.model';
+import {SalesService} from '../services/sales-service';
 
-export const categoryDetailResolver: ResolveFn<Category | undefined> = (activatedRoute, routerState): Observable<Category | undefined> => {
+export const saleDetailResolver: ResolveFn<SaleInfoModel | undefined> = (activatedRoute, routerState): Observable<SaleInfoModel | undefined> => {
 
-    const postService = inject(CategoryService);
+    const saleService = inject(SalesService);
     const router = inject(Router)
 
-    return postService.getCategoryDetail(activatedRoute.params['categoryId']).pipe(
+    return saleService.getSaleById(activatedRoute.params['saleId']).pipe(
         catchError(err => {
 
             let error: string;
@@ -18,7 +19,7 @@ export const categoryDetailResolver: ResolveFn<Category | undefined> = (activate
                 error = err.error.message;
             } else {
                 console.log(err);
-                error = "Something went wrong when fetching categories, please try again later.";
+                error = "Something went wrong when fetching the sale, please try again later.";
             }
 
             router.navigate(['/not-found'], {queryParams: {message: error}}).then();
