@@ -255,6 +255,14 @@ export class ReceiveDelivery implements OnInit {
 
     }
 
+    removeInstanceFromSaving(index: number) {
+
+        const afterRemoval = this.newInstances().filter((_, i) => i !== index);
+
+        this.newInstances.set(afterRemoval);
+
+    }
+
 
     handleError(err: any) {
 
