@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, EventEmitter, input, Output} from '@angular/core';
 import {CapitalizeFirstPipe} from "../../../../shared/pipes/capitalize-first.pipe";
 import {InstanceData} from '../../../../core/models/sales/sale-product-instance-data.model';
 
@@ -13,5 +13,7 @@ import {InstanceData} from '../../../../core/models/sales/sale-product-instance-
 export class SaleProductInstancesTable {
 
     instances = input.required<InstanceData[]>();
+
+    @Output() removeInstanceClicked = new EventEmitter<number>();
 
 }

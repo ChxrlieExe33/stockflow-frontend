@@ -267,6 +267,16 @@ export class NewSale implements OnInit {
 
     }
 
+    removeInstanceFromSale(index: number) {
+
+        const afterRemoval = this.chosenInstancesData().filter((_, i) => i !== index);
+        this.chosenInstancesData.set(afterRemoval);
+
+        const afterRemovalIds = this.chosenInstanceIds().filter((_, i) => i !== index);
+        this.chosenInstanceIds.set(afterRemovalIds);
+
+    }
+
     handleError(err: any) {
 
         if (err.error && typeof err.error === 'object' && err.error.message) {
