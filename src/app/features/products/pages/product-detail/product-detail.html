@@ -4,9 +4,9 @@
 
     <nav class="w-full bg-slate-800 text-white font-bold flex items-center justify-evenly shadow-xl">
 
-        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400" (click)="changeToCountsPage()" [ngClass]="mode() === ViewMode.COUNTS ? 'text-blue-400' : 'text-white'" >Counts</button>
+        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400 cursor-pointer" (click)="changeToCountsPage()" [ngClass]="mode() === ViewMode.COUNTS ? 'text-blue-400' : 'text-white'" >Counts</button>
 
-        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400" (click)="changeToInstancesPage()" [ngClass]="mode() === ViewMode.INSTANCES ? 'text-blue-400' : 'text-white'">Instances</button>
+        <button class="p-4 transform transition-transform duration-300 hover:scale-110 hover:text-blue-400 cursor-pointer" (click)="changeToInstancesPage()" [ngClass]="mode() === ViewMode.INSTANCES ? 'text-blue-400' : 'text-white'">Instances</button>
 
     </nav>
 

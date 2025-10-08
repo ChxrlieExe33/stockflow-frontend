@@ -138,7 +138,7 @@
 
             <h1 class="text-2xl font-bold">Selected product instances</h1>
 
-            <app-sale-product-instances-table [instances]="chosenInstancesData()" class="w-[80%] mb-8" (removeInstanceClicked)="removeInstanceFromSale($event)"/>
+            <app-sale-product-instances-table [instances]="chosenInstancesData()" class="w-[80%] mb-8" (removeInstanceClicked)="removeInstanceFromSale($event)" [displayRemoveButton]="true"/>
 
         </span>
 

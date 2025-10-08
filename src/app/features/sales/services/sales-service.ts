@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {NewSaleModel} from '../../../core/models/sales/new-sale.model';
 import {SaleInfoModel} from '../../../core/models/sales/sale-info.model';
+import {InstanceData} from '../../../core/models/sales/sale-product-instance-data.model';
 
 export type SaleInfoPage = {
     content: SaleInfoModel[],
@@ -30,9 +31,15 @@ export class SalesService {
 
     }
 
-    getSaleById(id: number): Observable<SaleInfoModel> {
+    getSaleById(id: string): Observable<SaleInfoModel> {
 
         return this.http.get<SaleInfoModel>(`${environment.apiBaseUrl}/api/v1/orders/${id}`);
+
+    }
+
+    getSaleProducts(saleId: string) : Observable<InstanceData[]> {
+
+        return this.http.get<InstanceData[]>(`${environment.apiBaseUrl}/api/v1/orders/products/${saleId}`);
 
     }
 

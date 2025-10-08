@@ -13,6 +13,7 @@ import {InstanceData} from '../../../../core/models/sales/sale-product-instance-
 export class SaleProductInstancesTable {
 
     instances = input.required<InstanceData[]>();
+    displayRemoveButton = input.required<boolean>();
 
     @Output() removeInstanceClicked = new EventEmitter<number>();
 

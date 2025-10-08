@@ -24,4 +24,10 @@
 
     </header>
 
+    @if (saleProducts().length > 0) {
+
+        <app-sale-product-instances-table [instances]="saleProducts()" class="w-[80%] mb-8" [displayRemoveButton]="false"/>
+
+    }
+
 </main>
