@@ -20,6 +20,13 @@
             <p><b>Contact</b>: {{sale().deliveryPhoneNumber}}</p>
             <p><b>Instructions</b>: {{sale().extraInformation}}</p>
 
+            <span class="flex items-center justify-evenly w-full mt-4 gap-4">
+
+                <a class="px-6 py-2 bg-slate-800 text-white font-bold rounded-3xl transform transition-transform duration-300 hover:scale-110" [routerLink]="'/sales/update/' + sale().orderId">Edit</a>
+                <a class="px-6 py-2 bg-slate-800 text-white font-bold rounded-3xl transform transition-transform duration-300 hover:scale-110">Mark as delivered</a>
+
+            </span>
+
         </section>
 
     </header>

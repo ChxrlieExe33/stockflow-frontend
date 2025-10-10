@@ -7,13 +7,15 @@ import {AutoDestroyService} from '../../../../core/services/utils/auto-destroy.s
 import {InstanceData} from '../../../../core/models/sales/sale-product-instance-data.model';
 import {takeUntil} from 'rxjs';
 import {SaleProductInstancesTable} from '../../components/sale-product-instances-table/sale-product-instances-table';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-sale-detail',
     imports: [
         DatePipe,
         CapitalizeFirstPipe,
-        SaleProductInstancesTable
+        SaleProductInstancesTable,
+        RouterLink
     ],
     providers: [AutoDestroyService],
   templateUrl: './sale-detail.html',
