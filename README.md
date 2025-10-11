@@ -1,6 +1,6 @@
 # Stockflow Frontend
 
-<img src="stockflow_front.png" alt="Stockflow Frontend" />
+<img src="new-stockflow.png" alt="Stockflow Frontend" />
 
 This project is the frontend for a stock management and sales processing system for a small furniture shop.
 
