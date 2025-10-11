@@ -6,6 +6,7 @@ import {NewSaleModel} from '../../../core/models/sales/new-sale.model';
 import {SaleInfoModel} from '../../../core/models/sales/sale-info.model';
 import {InstanceData} from '../../../core/models/sales/sale-product-instance-data.model';
 import {UpdateSaleInfoModel} from '../../../core/models/sales/update-sale-info.model';
+import {UpdateSaleProductsModel} from '../../../core/models/sales/update-sale-products.model';
 
 export type SaleInfoPage = {
     content: SaleInfoModel[],
@@ -53,6 +54,12 @@ export class SalesService {
     updateSaleInformation(updatedInfo: UpdateSaleInfoModel, saleId: string) : Observable<SaleInfoModel> {
 
         return this.http.put<SaleInfoModel>(`${environment.apiBaseUrl}/api/v1/orders/${saleId}`, updatedInfo)
+
+    }
+
+    updateSaleProducts(saleId: string, productChanges: UpdateSaleProductsModel) : Observable<void> {
+
+        return this.http.put<void>(`${environment.apiBaseUrl}/api/v1/orders/instances/${saleId}`, productChanges)
 
     }
 
