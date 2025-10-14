@@ -14,6 +14,7 @@ import { Product } from '../../../../core/models/products/product.model';
 import {ProductInstance} from '../../../../core/models/products/product-instance.model';
 import {UpdateSaleProductsModel} from '../../../../core/models/sales/update-sale-products.model';
 import {Router} from '@angular/router';
+import {getErrorMessage} from '../../../../shared/utils/get-error-message';
 
 @Component({
   selector: 'app-update-sale',
@@ -38,7 +39,10 @@ export class UpdateSale implements OnInit {
 
     protected saleInfoSubmitted$ = new Subject<void>();
 
-    error = signal<string | undefined>(undefined);
+    saleInfoUpdateError = signal<string | undefined>(undefined);
+    productRetrievalError = signal<string | undefined>(undefined);
+    saleProductsUpdateError = signal<string | undefined>(undefined);
+    productSearchError = signal<string | undefined>(undefined);
 
     saleInfoUpdated = signal<boolean>(false);
 
@@ -110,7 +114,7 @@ export class UpdateSale implements OnInit {
 
             }, error: error => {
 
-                this.handleError(error);
+                this.productRetrievalError.set(getErrorMessage(error));
 
             }
         })
@@ -121,7 +125,10 @@ export class UpdateSale implements OnInit {
 
         this.saleInfoSubmitted$.pipe(
             takeUntil(this.destroy$),
-            tap(() => this.saleInfoUpdated.set(false)),
+            tap(() => {
+                this.saleInfoUpdated.set(false);
+                this.saleInfoUpdateError.set(undefined);
+            }),
             filter(() => this.saleInfoForm.valid),
             exhaustMap(() => {
 
@@ -136,7 +143,7 @@ export class UpdateSale implements OnInit {
                 return this.saleService.updateSaleInformation(data, this.sale().orderId).pipe(
                     takeUntil(this.destroy$),
                     catchError((err) => {
-                        this.handleError(err);
+                        this.saleInfoUpdateError.set(getErrorMessage(err));
                         return EMPTY;
                     })
                 )
@@ -149,18 +156,6 @@ export class UpdateSale implements OnInit {
 
             }
         })
-
-    }
-
-    handleError(err: any) {
-
-        if (err.error && typeof err.error === 'object' && err.error.message) {
-            console.log(err.error.message);
-            this.error.set(err.error.message);
-        } else {
-            console.log(err);
-            this.error.set("Something went wrong when editing sale, please try again later.");
-        }
 
     }
 
@@ -187,6 +182,9 @@ export class UpdateSale implements OnInit {
 
         this.productChangesSubmitted$.pipe(
             takeUntil(this.destroy$),
+            tap(() => {
+                this.saleProductsUpdateError.set(undefined);
+            }),
             filter(() => this.productsToRemove().length > 0 || this.productsToAdd().length > 0),
             exhaustMap(() => {
                 const data = <UpdateSaleProductsModel>{
@@ -197,7 +195,7 @@ export class UpdateSale implements OnInit {
                 return this.saleService.updateSaleProducts(this.sale().orderId, data).pipe(
                     takeUntil(this.destroy$),
                     catchError((err) => {
-                        this.handleError(err);
+                        this.saleProductsUpdateError.set(getErrorMessage(err));
                         return EMPTY;
                     })
                 )
@@ -246,7 +244,7 @@ export class UpdateSale implements OnInit {
             switchMap(() => {
                 return this.productService.searchByName(this.searchForm.controls.name.value!).pipe(
                     catchError((err) => {
-                        this.handleError(err);
+                        this.productSearchError.set(getErrorMessage(err));
                         return EMPTY;
                     })
                 )
@@ -254,7 +252,7 @@ export class UpdateSale implements OnInit {
         ).subscribe({
             next: (res) => {
 
-                this.error.set(undefined);
+                this.productSearchError.set(undefined);
                 this.productResults.set(res)
                 this.loading.set(false)
 
@@ -287,11 +285,14 @@ export class UpdateSale implements OnInit {
 
         this.productService.getProductDetail(productId).pipe(
             takeUntil(this.destroy$),
+            tap(() => {
+                this.productSearchError.set(undefined);
+            })
         ).subscribe({
             next: (res) => {
                 this.selectedProduct.set(res);
             }, error: (err) => {
-                this.handleError(err);
+                this.productSearchError.set(getErrorMessage(err));
             }
         })
 
@@ -327,6 +328,9 @@ export class UpdateSale implements OnInit {
 
         this.productService.findInstancesOfProductWithFilters(this.selectedProduct()!.productId, filters).pipe(
             takeUntil(this.destroy$),
+            tap(() => {
+                this.productSearchError.set(undefined);
+            })
         ).subscribe({
             next: (res) => {
 
@@ -336,7 +340,7 @@ export class UpdateSale implements OnInit {
 
                 this.productInstanceResults.set(alreadyTakenRemoved);
             }, error: (err) => {
-                this.handleError(err);
+                this.productSearchError.set(getErrorMessage(err));
                 this.productInstanceResults.set([])
             }
         })
